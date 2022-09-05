@@ -32,22 +32,15 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-jacoco {
-    toolVersion = "0.8.8"
-    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
-}
-
-test {
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
     reports {
-        xml.required = false
-        csv.required = false
-        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        csv.enabled true
+        xml.enabled true
+        html.enabled true
     }
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
 }
